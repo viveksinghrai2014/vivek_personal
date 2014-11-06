@@ -1,0 +1,8 @@
+#!/bin/bash -x
+
+if /etc/init.d/ssh status |grep running > /dev/null
+then
+echo "service is up"
+else
+echo "service is down"
+fi
