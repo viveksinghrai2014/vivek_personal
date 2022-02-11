@@ -1,0 +1,105 @@
+Resources:
+  TimeZoneInfo:
+    Type: Custom::TimeZoneInfo
+    Properties:
+      ServiceToken: !GetAtt GetTimeZoneInfo.Arn
+      TimeZone: !Ref TimeZone
+
+  GetTimeZoneInfoRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - "sts:AssumeRole"
+      Path: /
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "logs:CreateLogGroup"
+                  - "logs:CreateLogStream"
+		  - ""logs:GetLogEvents"
+                  - "logs:PutLogEvents"
+		  - "logs:DescribeLogStreams"
+                Resource: "arn:aws:logs:*:*:*"
+
+  GetTimeZoneInfo:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: GetTimeZoneInfo
+      Role: !GetAtt GetTimeZoneInfoRole.Arn
+      Runtime: python3.9
+      Handler: cfn_lambda.lambda_handler
+      Code:
+        S3Bucket: NttDataBucket
+
+
+Parameters:
+  TimeZone:
+    Description: European Time Zone from the Url http://worldtimeapi.org/api/timezone/Europe
+    Type: String
+    Default: London
+    AllowedValues:
+      - Amsterdam
+      - Andorra
+      - Astrakhan
+      - Athens
+      - Belgrade
+      - Berlin
+      - Brussels
+      - Bucharest
+      - Budapest
+      - Chisinau
+      - Copenhagen
+      - Dublin
+      - Gibraltar
+      - Helsinki
+      - Istanbul
+      - Kaliningrad
+      - Kiev
+      - Kirov
+      - Lisbon
+      - London
+      - Luxembourg
+      - Madrid
+      - Malta
+      - Minsk
+      - Monaco
+      - Moscow
+      - Oslo
+      - Paris
+      - Prague
+      - Riga
+      - Rome
+      - Samara
+      - Saratov
+      - Simferopol
+      - Sofia
+      - Stockholm
+      - Tallinn
+      - Tirane
+      - Ulyanovsk
+      - Uzhgorod
+      - Vienna
+      - Vilnius
+      - Volgograd
+      - Warsaw
+      - Zaporozhye
+      - Zurich
+
+Outputs:
+  TimeZoneInformation:
+    Description: Time information of specified timezone
+    Value: !GetAtt TimeZoneInfo.timeInfo
+  UnixTime:
+    Description: UnixTime of specified timezone
+    Value: !GetAtt TimeZoneInfo.unixTime
