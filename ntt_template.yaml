@@ -27,8 +27,8 @@ Resources:
                 Action:
                   - "logs:CreateLogGroup"
                   - "logs:CreateLogStream"
-		  - ""logs:GetLogEvents"
-                  - "logs:PutLogEvents"
+                  - "logs:GetLogEvents"
+		  - "logs:PutLogEvents"
 		  - "logs:DescribeLogStreams"
                 Resource: "arn:aws:logs:*:*:*"
 
