@@ -28,8 +28,8 @@ Resources:
                   - "logs:CreateLogGroup"
                   - "logs:CreateLogStream"
                   - "logs:GetLogEvents"
-		  - "logs:PutLogEvents"
-		  - "logs:DescribeLogStreams"
+                  - "logs:PutLogEvents"
+                  - "logs:DescribeLogStreams"
                 Resource: "arn:aws:logs:*:*:*"
 
   GetTimeZoneInfo:
